@@ -1,0 +1,114 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended", //JS ESLint recommended rules
+        "plugin:@typescript-eslint/eslint-recommended", //TS ESLint recommended rules
+        "plugin:@typescript-eslint/recommended" //TS ESLint recommended rules
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser", //Needs a TS parser to parse Typescript, duh
+    "parserOptions": {
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint" //Plugin to make ESLint support TS rules
+    ],
+    "rules": {
+        "indent": [
+            "warn",
+            2,
+            {
+                "FunctionDeclaration": {
+                    "parameters": "first" //Parameters must be aligned (vertically) with the first one
+                },
+                "FunctionExpression": {
+                    "parameters": "first" //Parameters must be aligned (vertically) with the first one
+                },
+                "CallExpression": {
+                    "arguments": "first" //Arguments must be aligned (vertically) with the first one
+                },
+                "ArrayExpression": "first", //Elements must be aligned (vertically) with the first one
+                "ObjectExpression": "first" //Keys must be aligned (vertically) with the first one
+            }
+        ],
+        "linebreak-style": [
+            "warn",
+            "windows"
+        ],
+        "quotes": [
+            "warn",
+            "double", //Born and raised in C/C++
+            {
+                "allowTemplateLiterals" : true
+            }
+        ],
+        "semi": [
+            "warn",
+            "always" //Born and raised in C/C++
+        ],
+        "no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "args": "after-used" //Unused arguments in functions that need those arguments for positional reasons won't be checked (like app.get(req, res) in express)
+            }
+        ],
+        "function-paren-newline": [
+            "warn",
+            "consistent"
+        ],
+        "brace-style": [
+            "warn",
+            "allman", //Aligned braces PLEASE!
+            {
+                "allowSingleLine": true
+            }
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "comma-spacing": [
+            "warn",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "function-call-argument-newline": [
+            "warn",
+            "consistent"
+        ],
+        "no-constant-condition": [
+            "warn",
+            {"checkLoops": false} //Sometimes this is the cleanest way to write a complex loop where we need non primitive recursion or just there is no clean way to determine when a loop should end by watching a single variable
+        ],
+        "camelcase": [
+            "warn",
+            {"properties": "always"}
+        ],
+        "@typescript-eslint/type-annotation-spacing": [
+            "warn",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "@typescript-eslint/consistent-type-assertions": [
+            "warn",
+            {
+                "assertionStyle": "as"
+            }
+        ],
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-empty-function": "warn",
+        "@typescript-eslint/explicit-function-return-type": "error"
+    }
+}
