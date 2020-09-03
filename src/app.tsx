@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { ProfessorProfile } from "./Models/ProfessorProfile";
 import { generateProfessorsProfiles } from "./controller";
+import { ProfessorTab } from "./Components/ProfessorTab";
 
 function App() : JSX.Element
 {
@@ -19,7 +20,7 @@ function App() : JSX.Element
 
   return (
     <>
-      {professorsProfiles.length === 0 ? "Loading!" : professorsProfiles.map(profile => <p key={profile.name}>{profile.name}</p>)}
+      {professorsProfiles.length === 0 ? "Loading!" : professorsProfiles.map(profile => <ProfessorTab key={profile.name} profile={profile} />)}
     </>
   );
 }
