@@ -1,61 +1,22 @@
 import dotenv from "dotenv";
-import moment from "moment";
-import { ClassScheduleEntry, scrapData, InstituteEntry, SubjectEntry, ClassEntry } from "./scraping";
-import mongodb from "mongodb";
-import { Database } from "./database";
+import express from "express";
+import { fetchInstituteEntries } from "./logic";
 
 //Initalization
 dotenv.config();
 
-//Rest
-class ProfessorProfile
+const app = express();
+
+app.use(express.json());
+app.use(express.static("public"));
+
+app.get("/data", async (req, res) =>
 {
-  constructor(name : string)
-  {
-    this.name = name;
-    this.instituteEntries = new Set();
-    this.subjectEntries = new Set();
-    this.classSchedules = [];
-  }
+  const data = await fetchInstituteEntries();
+  res.send(data);
+});
 
-  public name : string;
-  public instituteEntries : Set<InstituteEntry>;
-  public subjectEntries : Set<SubjectEntry>;
-  public classSchedules : Array<ClassScheduleEntry>;
-}
-
-async function fetchProfessorsSchedules() : Promise<Map<string, ProfessorProfile>>
+app.listen(process.env.PORT || 8080, () =>
 {
-  const instituteEntries = await Database.fetchInstituteEntries();
-
-  //Professors Profiles
-  const professorsProfiles = new Map<string, ProfessorProfile>();
-  for(const instituteEntry of instituteEntries)
-  {
-    const subjectEntries = instituteEntry.subjectEntries;
-    for(const subjectEntry of subjectEntries)
-    {
-      const classEntries = subjectEntry.classEntries;
-      for(const classEntry of classEntries)
-      {
-        const professors = classEntry.professors;
-        for(const professor of professors)
-        {
-          if(!professorsProfiles.has(professor))
-          {
-            professorsProfiles.set(professor, new ProfessorProfile(professor));
-          }
-
-          const professorProfile = professorsProfiles.get(professor)!;
-          professorProfile.instituteEntries.add(instituteEntry);
-          professorProfile.subjectEntries.add(subjectEntry);
-          professorProfile.classSchedules.push(... classEntry.schedule);
-        }
-      }
-    }
-  }
-
-  return professorsProfiles;
-}
-
-fetchProfessorsSchedules();
+  console.log("Server up!");
+});

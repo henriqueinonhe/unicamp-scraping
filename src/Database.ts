@@ -1,5 +1,5 @@
 import mongodb from "mongodb";
-import { InstituteEntry } from "./scraping";
+import { InstituteEntry } from "./Models/InstituteEntry";
 
 export class Database
 {

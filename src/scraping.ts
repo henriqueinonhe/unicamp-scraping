@@ -1,74 +1,8 @@
 import puppeteer from "puppeteer";
-import mongodb from "mongodb";
 import { Database } from "./database";
-
-export class InstituteEntry
-{
-  constructor(acronym : string, name : string, link : string)
-  {
-    this.acronym = acronym;
-    this.name = name;
-    this.link = link;
-    this.subjectEntries = [];
-  }
-
-  public static deserialize(object : object) : InstituteEntry
-  {
-    const {acronym, name, link, subjectEntries} = object as InstituteEntry;
-    const entry = new InstituteEntry(acronym, name, link);
-    entry.subjectEntries = subjectEntries;
-    return entry;
-  }
-
-  public acronym : string;
-  public name : string;
-  public link : string;
-  public subjectEntries : Array<SubjectEntry>;
-}
-
-export class SubjectEntry
-{
-  constructor(code : string, name : string, link : string)
-  {
-    this.code = code;
-    this.name = name;
-    this.link = link;
-    this.classEntries = [];
-  }
-
-  public code : string;
-  public name : string;
-  public link : string;
-  public classEntries : Array<ClassEntry>;
-}
-
-export class ClassScheduleEntry
-{
-  constructor(weekDay : string, beginTime : string, endTime : string, classRoom : string)
-  {
-    this.weekDay = weekDay;
-    this.beginTime = beginTime;
-    this.endTime = endTime;
-    this.classRoom = classRoom;
-  }
-
-  public weekDay : string;
-  public beginTime : string;
-  public endTime : string;
-  public classRoom : string;
-}
-
-export class ClassEntry
-{
-  constructor(professors : Array<string>, schedule : Array<ClassScheduleEntry>)
-  {
-    this.professors = professors;
-    this.schedule = schedule;
-  }
-
-  public professors : Array<string>;
-  public schedule : Array<ClassScheduleEntry>;
-}
+import { InstituteEntry } from "./Models/InstituteEntry";
+import { SubjectEntry } from "./Models/SubjectEntry";
+import { ClassEntry } from "./Models/ClassEntry";
 
 async function scrapInstituteEntries(page : puppeteer.Page) : Promise<Array<InstituteEntry>>
 {

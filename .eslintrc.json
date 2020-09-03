@@ -1,41 +1,41 @@
 {
+    "ignorePatterns": ["public", "index.js"],
     "env": {
-        "es6": true,
-        "node": true
+        "browser": true,
+        "es2020": true,
+        "node": true,
+        "jest": true
     },
     "extends": [
-        "eslint:recommended", //JS ESLint recommended rules
-        "plugin:@typescript-eslint/eslint-recommended", //TS ESLint recommended rules
-        "plugin:@typescript-eslint/recommended" //TS ESLint recommended rules
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parser": "@typescript-eslint/parser", //Needs a TS parser to parse Typescript, duh
     "parserOptions": {
         "ecmaVersion": 11,
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint" //Plugin to make ESLint support TS rules
+        "@typescript-eslint"
     ],
+    "parser": "@typescript-eslint/parser",
     "rules": {
         "indent": [
             "warn",
             2,
             {
                 "FunctionDeclaration": {
-                    "parameters": "first" //Parameters must be aligned (vertically) with the first one
+                    "parameters": "first"
                 },
                 "FunctionExpression": {
-                    "parameters": "first" //Parameters must be aligned (vertically) with the first one
+                    "parameters": "first"
                 },
                 "CallExpression": {
-                    "arguments": "first" //Arguments must be aligned (vertically) with the first one
+                    "arguments": "first"
                 },
-                "ArrayExpression": "first", //Elements must be aligned (vertically) with the first one
-                "ObjectExpression": "first" //Keys must be aligned (vertically) with the first one
+                "ArrayExpression": "first",
+                "ObjectExpression": "first"
             }
         ],
         "linebreak-style": [
@@ -44,29 +44,23 @@
         ],
         "quotes": [
             "warn",
-            "double", //Born and raised in C/C++
+            "double",
             {
                 "allowTemplateLiterals" : true
             }
         ],
         "semi": [
             "warn",
-            "always" //Born and raised in C/C++
+            "always"
         ],
-        "no-unused-vars": [
-            "warn",
-            {
-                "vars": "all",
-                "args": "after-used" //Unused arguments in functions that need those arguments for positional reasons won't be checked (like app.get(req, res) in express)
-            }
-        ],
+        "no-unused-vars": 0,
         "function-paren-newline": [
             "warn",
             "consistent"
         ],
         "brace-style": [
             "warn",
-            "allman", //Aligned braces PLEASE!
+            "allman",
             {
                 "allowSingleLine": true
             }
@@ -88,12 +82,14 @@
         ],
         "no-constant-condition": [
             "warn",
-            {"checkLoops": false} //Sometimes this is the cleanest way to write a complex loop where we need non primitive recursion or just there is no clean way to determine when a loop should end by watching a single variable
+            {"checkLoops": false}
         ],
         "camelcase": [
             "warn",
             {"properties": "always"}
         ],
+        "no-fallthrough": "off",
+        "react/prop-types": "warn",
         "@typescript-eslint/type-annotation-spacing": [
             "warn",
             {
@@ -109,6 +105,12 @@
         ],
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-empty-function": "warn",
-        "@typescript-eslint/explicit-function-return-type": "error"
+        "@typescript-eslint/explicit-function-return-type": [
+            "error",
+            {
+                "allowExpressions" : true
+            }
+        ]
     }
+    
 }
