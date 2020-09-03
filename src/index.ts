@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import moment from "moment";
-import { ClassScheduleEntry, ClassEntry } from "./scraping";
+import { ClassScheduleEntry, scrapData, InstituteEntry, SubjectEntry, ClassEntry } from "./scraping";
 import mongodb from "mongodb";
 
 //Initalization
@@ -9,27 +9,21 @@ dotenv.config();
 //Rest
 class ProfessorProfile
 {
-  constructor(name : string, classSchedules : Array<ClassScheduleEntry>)
+  constructor(name : string)
   {
     this.name = name;
-    this.classSchedules = classSchedules;
+    this.instituteEntries = new Set();
+    this.subjectEntries = new Set();
+    this.classSchedules = [];
   }
 
-  public getName() : string
-  {
-    return this.name;
-  }
-
-  public getClassSchedules() : Array<ClassScheduleEntry>
-  {
-    return this.classSchedules.slice();
-  }
-
-  private name : string;
-  private classSchedules : Array<ClassScheduleEntry>;
+  public name : string;
+  public instituteEntries : Set<InstituteEntry>;
+  public subjectEntries : Set<SubjectEntry>;
+  public classSchedules : Array<ClassScheduleEntry>;
 }
 
-async function fetchProfessorsSchedules() : Promise<Array<ProfessorProfile>>
+async function fetchProfessorsSchedules() : Promise<Map<string, ProfessorProfile>>
 {
   //Dabatase and deserialziation
   const mongoURI = process.env.DB_URI!;
@@ -37,29 +31,47 @@ async function fetchProfessorsSchedules() : Promise<Array<ProfessorProfile>>
   await mongoClient.connect();
 
   const database = mongoClient.db("unicamp-docentes");
-  const collection = database.collection("classEntries");
-  const serializedClassEntries = await collection.find({}).toArray();
-  const classEntries = serializedClassEntries.map(entry => new ClassEntry(entry.subjectEntry, entry.professors, entry.schedule));
+  const collection = database.collection("model");
+  const instituteEntries = (await collection.find({}).toArray()).map(entry => InstituteEntry.deserialize(entry));
 
   await mongoClient.close();
 
   //Professors Profiles
   const professorsProfiles = new Map<string, ProfessorProfile>();
-
-  for(const classEntry of classEntries)
+  for(const instituteEntry of instituteEntries)
   {
-    const professors = classEntry.getProfessors();
-    for(const professor of professors)
+    const subjectEntries = instituteEntry.subjectEntries;
+    for(const subjectEntry of subjectEntries)
     {
-      if(!professorsProfiles.has(professor))
+      const classEntries = subjectEntry.classEntries;
+      for(const classEntry of classEntries)
       {
-        professorsProfiles.set(professor, new ProfessorProfile(professor, []));
+        const professors = classEntry.professors;
+        for(const professor of professors)
+        {
+          if(!professorsProfiles.has(professor))
+          {
+            professorsProfiles.set(professor, new ProfessorProfile(professor));
+          }
+
+          const professorProfile = professorsProfiles.get(professor)!;
+          professorProfile.instituteEntries.add(instituteEntry);
+          professorProfile.subjectEntries.add(subjectEntry);
+          professorProfile.classSchedules.push(... classEntry.schedule);
+        }
       }
-      //FIXME!
-      
     }
   }
 
-  return [];
+  for(const professorProfile of professorsProfiles.values())
+  {
+    if(professorProfile.instituteEntries.size > 1)
+    {
+      console.log(professorProfile.name, Array.from(professorProfile.instituteEntries).map(entry => entry.acronym));
+    }
+  }
+
+  return professorsProfiles;
 }
 
+fetchProfessorsSchedules();

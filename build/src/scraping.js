@@ -20,15 +20,22 @@ class InstituteEntry {
         this.acronym = acronym;
         this.name = name;
         this.link = link;
+        this.subjectEntries = [];
+    }
+    static deserialize(object) {
+        const { acronym, name, link, subjectEntries } = object;
+        const entry = new InstituteEntry(acronym, name, link);
+        entry.subjectEntries = subjectEntries;
+        return entry;
     }
 }
 exports.InstituteEntry = InstituteEntry;
 class SubjectEntry {
-    constructor(instituteEntry, code, name, link) {
-        this.instituteEntry = instituteEntry;
+    constructor(code, name, link) {
         this.code = code;
         this.name = name;
         this.link = link;
+        this.classEntries = [];
     }
 }
 exports.SubjectEntry = SubjectEntry;
@@ -42,38 +49,9 @@ class ClassScheduleEntry {
 }
 exports.ClassScheduleEntry = ClassScheduleEntry;
 class ClassEntry {
-    constructor(subjectEntry, professors, schedule) {
-        this.subjectEntry = subjectEntry;
+    constructor(professors, schedule) {
         this.professors = professors;
         this.schedule = schedule;
-    }
-    static deserialize(object) {
-        const { subjectEntry, professors, schedule } = object;
-        return new ClassEntry(subjectEntry, professors, schedule);
-    }
-    getInstituteAcronym() {
-        return this.subjectEntry.instituteEntry.acronym;
-    }
-    getInstituteName() {
-        return this.subjectEntry.instituteEntry.name;
-    }
-    getInstituteLink() {
-        return this.subjectEntry.instituteEntry.link;
-    }
-    getSubjectCode() {
-        return this.subjectEntry.code;
-    }
-    getSubjectName() {
-        return this.subjectEntry.name;
-    }
-    getSubjectLink() {
-        return this.subjectEntry.link;
-    }
-    getProfessors() {
-        return this.professors;
-    }
-    getSchedule() {
-        return this.schedule;
     }
 }
 exports.ClassEntry = ClassEntry;
@@ -97,9 +75,9 @@ function scrapInstituteEntries(page) {
 function scrapSubjectEntries(instituteEntries, page) {
     return __awaiter(this, void 0, void 0, function* () {
         console.time("Subject entries scraping elapsed time");
-        const subjectEntries = [];
         let instituteCounter = 1;
         for (const instituteEntry of instituteEntries) {
+            const subjectEntries = [];
             const { link } = instituteEntry;
             yield page.goto(link);
             const subjectNodes = yield page.$$(".disciplinas-horario a");
@@ -108,39 +86,42 @@ function scrapSubjectEntries(instituteEntries, page) {
                 const whitespaceStrippedText = text === null || text === void 0 ? void 0 : text.replace(/ {2,}/g, "");
                 const [code, name] = whitespaceStrippedText.split("\n").filter(str => str !== "");
                 const link = yield node.evaluate(element => element.getAttribute("href"));
-                subjectEntries.push(new SubjectEntry(instituteEntry, code, name, link));
+                subjectEntries.push(new SubjectEntry(code, name, link));
             }
+            instituteEntry.subjectEntries = subjectEntries;
             console.log(`Institute ${instituteCounter} of ${instituteEntries.length}`);
             instituteCounter++;
         }
         console.timeEnd("Subject entries scraping elapsed time");
-        return subjectEntries;
     });
 }
-function scrapClassEntries(subjectEntries, page) {
+function scrapClassEntries(instituteEntries, page) {
     return __awaiter(this, void 0, void 0, function* () {
         console.time("Class entries scraping elpased time");
-        const classEntries = [];
-        let subjectCounter = 1;
-        for (const subjectEntry of subjectEntries) {
-            yield page.goto(subjectEntry.link);
-            const classNodes = yield page.$$(".panel-body");
-            for (const node of classNodes) {
-                const professors = yield node.$$eval(".docentes>li", array => array.map(element => { var _a; return (_a = element.textContent) === null || _a === void 0 ? void 0 : _a.replace(/\s+$/, ""); }));
-                const schedule = yield node.$$eval(".horariosFormatado>li", array => array.map(list => {
-                    var _a, _b, _c, _d, _e;
-                    const weekDay = (_a = list.querySelector(".diaSemana")) === null || _a === void 0 ? void 0 : _a.textContent;
-                    const [beginTime, endTime] = (_c = (_b = list.querySelector(".horarios")) === null || _b === void 0 ? void 0 : _b.textContent) === null || _c === void 0 ? void 0 : _c.split(" - ");
-                    const classRoom = (_e = (_d = list.querySelector(".salaAula")) === null || _d === void 0 ? void 0 : _d.textContent) === null || _e === void 0 ? void 0 : _e.trim();
-                    return { weekDay, beginTime, endTime, classRoom };
-                }));
-                classEntries.push(new ClassEntry(subjectEntry, professors, schedule));
+        for (const instituteEntry of instituteEntries) {
+            let subjectCounter = 1;
+            const subjectEntries = instituteEntry.subjectEntries;
+            for (const subjectEntry of subjectEntries) {
+                const classEntries = [];
+                yield page.goto(subjectEntry.link);
+                const classNodes = yield page.$$(".panel-body");
+                for (const node of classNodes) {
+                    const professors = yield node.$$eval(".docentes>li", array => array.map(element => { var _a; return (_a = element.textContent) === null || _a === void 0 ? void 0 : _a.replace(/\s+$/, ""); }));
+                    const schedule = yield node.$$eval(".horariosFormatado>li", array => array.map(list => {
+                        var _a, _b, _c, _d, _e;
+                        const weekDay = (_a = list.querySelector(".diaSemana")) === null || _a === void 0 ? void 0 : _a.textContent;
+                        const [beginTime, endTime] = (_c = (_b = list.querySelector(".horarios")) === null || _b === void 0 ? void 0 : _b.textContent) === null || _c === void 0 ? void 0 : _c.split(" - ");
+                        const classRoom = (_e = (_d = list.querySelector(".salaAula")) === null || _d === void 0 ? void 0 : _d.textContent) === null || _e === void 0 ? void 0 : _e.trim();
+                        return { weekDay, beginTime, endTime, classRoom };
+                    }));
+                    classEntries.push(new ClassEntry(professors, schedule));
+                }
+                subjectEntry.classEntries = classEntries;
+                console.log(`Subject ${subjectCounter} of ${subjectEntries.length}`);
+                subjectCounter++;
             }
-            console.log(`Subject ${subjectCounter} of ${subjectEntries.length}`);
-            subjectCounter++;
         }
         console.timeEnd("Class entries scraping elpased time");
-        return classEntries;
     });
 }
 function scrapData() {
@@ -155,16 +136,16 @@ function scrapData() {
             console.log(error);
         }
         //Scraping
-        const browser = yield puppeteer_1.default.launch({ headless: false });
+        const browser = yield puppeteer_1.default.launch({ headless: true });
         const page = yield browser.newPage();
         const instituteEntries = yield scrapInstituteEntries(page);
-        const subjectEntries = yield scrapSubjectEntries(instituteEntries, page);
-        const classEntries = yield scrapClassEntries(subjectEntries, page);
+        yield scrapSubjectEntries(instituteEntries, page);
+        yield scrapClassEntries(instituteEntries, page);
         //Save data in database
         const database = mongoClient.db();
-        const collection = database.collection("classEntries");
+        const collection = database.collection("model");
         yield collection.deleteMany({});
-        yield collection.insertMany(classEntries);
+        yield collection.insertMany(instituteEntries);
         yield mongoClient.close();
         yield browser.close();
     });

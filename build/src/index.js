@@ -18,16 +18,12 @@ const mongodb_1 = __importDefault(require("mongodb"));
 //Initalization
 dotenv_1.default.config();
 //Rest
-class ProfessorSchedule {
-    constructor(name, classSchedules) {
+class ProfessorProfile {
+    constructor(name) {
         this.name = name;
-        this.classSchedules = classSchedules;
-    }
-    getName() {
-        return this.name;
-    }
-    getClassSchedules() {
-        return this.classSchedules.slice();
+        this.instituteEntries = new Set();
+        this.subjectEntries = new Set();
+        this.classSchedules = [];
     }
 }
 function fetchProfessorsSchedules() {
@@ -37,12 +33,35 @@ function fetchProfessorsSchedules() {
         const mongoClient = new mongodb_1.default.MongoClient(mongoURI, { useUnifiedTopology: true });
         yield mongoClient.connect();
         const database = mongoClient.db("unicamp-docentes");
-        const collection = database.collection("classEntries");
-        const serializedClassEntries = yield collection.find({}).toArray();
-        const classEntries = serializedClassEntries.map(entry => new scraping_1.ClassEntry(entry.subjectEntry, entry.professors, entry.schedule));
-        console.log(classEntries);
+        const collection = database.collection("model");
+        const instituteEntries = (yield collection.find({}).toArray()).map(entry => scraping_1.InstituteEntry.deserialize(entry));
         yield mongoClient.close();
-        return [];
+        //Professors Profiles
+        const professorsProfiles = new Map();
+        for (const instituteEntry of instituteEntries) {
+            const subjectEntries = instituteEntry.subjectEntries;
+            for (const subjectEntry of subjectEntries) {
+                const classEntries = subjectEntry.classEntries;
+                for (const classEntry of classEntries) {
+                    const professors = classEntry.professors;
+                    for (const professor of professors) {
+                        if (!professorsProfiles.has(professor)) {
+                            professorsProfiles.set(professor, new ProfessorProfile(professor));
+                        }
+                        const professorProfile = professorsProfiles.get(professor);
+                        professorProfile.instituteEntries.add(instituteEntry);
+                        professorProfile.subjectEntries.add(subjectEntry);
+                        professorProfile.classSchedules.push(...classEntry.schedule);
+                    }
+                }
+            }
+        }
+        for (const professorProfile of professorsProfiles.values()) {
+            if (professorProfile.instituteEntries.size > 1) {
+                console.log(professorProfile.name, Array.from(professorProfile.instituteEntries).map(entry => entry.acronym));
+            }
+        }
+        return professorsProfiles;
     });
 }
 fetchProfessorsSchedules();

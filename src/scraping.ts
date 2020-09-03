@@ -8,27 +8,37 @@ export class InstituteEntry
     this.acronym = acronym;
     this.name = name;
     this.link = link;
+    this.subjectEntries = [];
+  }
+
+  public static deserialize(object : object) : InstituteEntry
+  {
+    const {acronym, name, link, subjectEntries} = object as InstituteEntry;
+    const entry = new InstituteEntry(acronym, name, link);
+    entry.subjectEntries = subjectEntries;
+    return entry;
   }
 
   public acronym : string;
   public name : string;
   public link : string;
+  public subjectEntries : Array<SubjectEntry>;
 }
 
 export class SubjectEntry
 {
-  constructor(instituteEntry : InstituteEntry, code : string, name : string, link : string)
+  constructor(code : string, name : string, link : string)
   {
-    this.instituteEntry = instituteEntry;
     this.code = code;
     this.name = name;
     this.link = link;
+    this.classEntries = [];
   }
 
-  public instituteEntry : InstituteEntry;
   public code : string;
   public name : string;
   public link : string;
+  public classEntries : Array<ClassEntry>;
 }
 
 export class ClassScheduleEntry
@@ -49,62 +59,14 @@ export class ClassScheduleEntry
 
 export class ClassEntry
 {
-  constructor(subjectEntry : SubjectEntry, professors : Array<string>, schedule : Array<ClassScheduleEntry>)
+  constructor(professors : Array<string>, schedule : Array<ClassScheduleEntry>)
   {
-    this.subjectEntry = subjectEntry;
     this.professors = professors;
     this.schedule = schedule;
   }
 
-  public static deserialize(object : object) : ClassEntry
-  {
-    const {subjectEntry, professors, schedule} = object as ClassEntry;
-    return new ClassEntry(subjectEntry, professors, schedule);
-  } 
-
-  public getInstituteAcronym() : string
-  {
-    return this.subjectEntry.instituteEntry.acronym;
-  }
-
-  public getInstituteName() : string
-  {
-    return this.subjectEntry.instituteEntry.name;
-  }
-
-  public getInstituteLink() : string
-  {
-    return this.subjectEntry.instituteEntry.link;
-  }
-
-  public getSubjectCode() : string
-  {
-    return this.subjectEntry.code;
-  }
-
-  public getSubjectName() : string
-  {
-    return this.subjectEntry.name;
-  }
-
-  public getSubjectLink() : string
-  {
-    return this.subjectEntry.link;
-  }
-
-  public getProfessors() : Array<string>
-  {
-    return this.professors;
-  }
-
-  public getSchedule() : Array<ClassScheduleEntry>
-  {
-    return this.schedule;
-  }
-
-  private subjectEntry : SubjectEntry;
-  private professors : Array<string>;
-  private schedule : Array<ClassScheduleEntry>;
+  public professors : Array<string>;
+  public schedule : Array<ClassScheduleEntry>;
 }
 
 async function scrapInstituteEntries(page : puppeteer.Page) : Promise<Array<InstituteEntry>>
@@ -130,14 +92,14 @@ async function scrapInstituteEntries(page : puppeteer.Page) : Promise<Array<Inst
   return instituteEntries;
 }
 
-async function scrapSubjectEntries(instituteEntries : Array<InstituteEntry>, page : puppeteer.Page) : Promise<Array<SubjectEntry>>
+async function scrapSubjectEntries(instituteEntries : Array<InstituteEntry>, page : puppeteer.Page) : Promise<void>
 {
   console.time("Subject entries scraping elapsed time");
 
-  const subjectEntries = [];
   let instituteCounter = 1;
   for(const instituteEntry of instituteEntries)
   {
+    const subjectEntries = [];
     const {link} = instituteEntry;
     await page.goto(link);
     
@@ -149,53 +111,54 @@ async function scrapSubjectEntries(instituteEntries : Array<InstituteEntry>, pag
       const [code, name] = whitespaceStrippedText!.split("\n").filter(str => str !== "");
       const link = await node.evaluate(element => element.getAttribute("href"));
       
-      subjectEntries.push(new SubjectEntry(instituteEntry, code, name, link!));
-
+      subjectEntries.push(new SubjectEntry(code, name, link!));
     }
 
+    instituteEntry.subjectEntries = subjectEntries;
     console.log(`Institute ${instituteCounter} of ${instituteEntries.length}`);
     instituteCounter++;
   }
 
   console.timeEnd("Subject entries scraping elapsed time");
-
-  return subjectEntries;
 }
 
-async function scrapClassEntries(subjectEntries : Array<SubjectEntry>, page : puppeteer.Page) : Promise<Array<ClassEntry>>
+async function scrapClassEntries(instituteEntries : Array<InstituteEntry>, page : puppeteer.Page) : Promise<void>
 {
   console.time("Class entries scraping elpased time");
 
-  const classEntries : Array<ClassEntry> = [];
-  let subjectCounter = 1;
-  for(const subjectEntry of subjectEntries)
+  for(const instituteEntry of instituteEntries)
   {
-    await page.goto(subjectEntry.link);
-    const classNodes = await page.$$(".panel-body");
-    
-    for(const node of classNodes)
+    let subjectCounter = 1;
+    const subjectEntries = instituteEntry.subjectEntries;
+    for(const subjectEntry of subjectEntries)
     {
-      const professors = await node.$$eval(".docentes>li", array => array.map(element => element.textContent?.replace(/\s+$/, "")!));
-      const schedule = await node.$$eval(".horariosFormatado>li", array => array.map(list => 
+      const classEntries : Array<ClassEntry> = [];
+
+      await page.goto(subjectEntry.link);
+      const classNodes = await page.$$(".panel-body");
+    
+      for(const node of classNodes)
       {
-        const weekDay = list.querySelector(".diaSemana")?.textContent!;
-        const [beginTime, endTime] = list.querySelector(".horarios")?.textContent?.split(" - ")!;
-        const classRoom = list.querySelector(".salaAula")?.textContent?.trim()!;
+        const professors = await node.$$eval(".docentes>li", array => array.map(element => element.textContent?.replace(/\s+$/, "")!));
+        const schedule = await node.$$eval(".horariosFormatado>li", array => array.map(list => 
+        {
+          const weekDay = list.querySelector(".diaSemana")?.textContent!;
+          const [beginTime, endTime] = list.querySelector(".horarios")?.textContent?.split(" - ")!;
+          const classRoom = list.querySelector(".salaAula")?.textContent?.trim()!;
 
-        return {weekDay, beginTime, endTime, classRoom};
-      }));
+          return {weekDay, beginTime, endTime, classRoom};
+        }));
 
-      classEntries.push(new ClassEntry(subjectEntry, professors, schedule));
+        classEntries.push(new ClassEntry(professors, schedule));
+      }
 
+      subjectEntry.classEntries = classEntries;
+      console.log(`Subject ${subjectCounter} of ${subjectEntries.length}`);
+      subjectCounter++;
     }
-
-    console.log(`Subject ${subjectCounter} of ${subjectEntries.length}`);
-    subjectCounter++;
   }
 
   console.timeEnd("Class entries scraping elpased time");
-
-  return classEntries;
 }
 
 export async function scrapData() : Promise<void> 
@@ -213,18 +176,18 @@ export async function scrapData() : Promise<void>
   }
 
   //Scraping
-  const browser = await puppeteer.launch({headless: false});
+  const browser = await puppeteer.launch({headless: true});
   const page = await browser.newPage();
   
   const instituteEntries = await scrapInstituteEntries(page);
-  const subjectEntries = await scrapSubjectEntries(instituteEntries, page);
-  const classEntries = await scrapClassEntries(subjectEntries, page);
+  await scrapSubjectEntries(instituteEntries, page);
+  await scrapClassEntries(instituteEntries, page);
 
   //Save data in database
   const database = mongoClient.db();
-  const collection = database.collection("classEntries");
+  const collection = database.collection("model");
   await collection.deleteMany({});
-  await collection.insertMany(classEntries);
+  await collection.insertMany(instituteEntries);
 
   await mongoClient.close();
 
