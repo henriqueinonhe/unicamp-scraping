@@ -31927,12 +31927,12 @@ function ProfessorTab(props) {
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ProfessorInfo, null,
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesInfo, null,
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesLabel, null, "Institutos"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesContainer, null, Array.from(profile.instituteEntries).map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Institute, { key: entry.acronym }, entry.acronym); }))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesContainer, null, Array.from(profile.institutes).map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Institute, { key: entry.acronym }, entry.acronym); }))),
             detailsStatus ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null) :
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null,
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsInfo, null,
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsLabel, null, "Mat\u00E9rias"),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsContainer, null, Array.from(profile.subjectEntries).map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Subject, { key: entry.code },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsContainer, null, Array.from(profile.subjects).map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Subject, { key: entry.code },
                             entry.code,
                             "   "); }))),
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleInfo, null,
@@ -31990,26 +31990,10 @@ __webpack_require__.r(__webpack_exports__);
 var ProfessorProfile = /** @class */ (function () {
     function ProfessorProfile(name) {
         this.name = name;
-        this.instituteEntries = new Set();
-        this.subjectEntries = new Set();
-        this.classSchedules = [];
+        this.institutes = [];
+        this.subjects = [];
+        this.classes = [];
     }
-    ProfessorProfile.deserialize = function (object) {
-        var name = object.name, instituteEntries = object.instituteEntries, subjectEntries = object.subjectEntries, classSchedules = object.classSchedules;
-        var profile = new ProfessorProfile(name);
-        profile.instituteEntries = new Set(instituteEntries);
-        profile.subjectEntries = new Set(subjectEntries);
-        profile.classSchedules = classSchedules;
-        return profile;
-    };
-    ProfessorProfile.prototype.serialize = function () {
-        return {
-            name: this.name,
-            instituteEntries: Array.from(this.instituteEntries),
-            subjectEntries: Array.from(this.subjectEntries),
-            classSchedules: this.classSchedules
-        };
-    };
     return ProfessorProfile;
 }());
 

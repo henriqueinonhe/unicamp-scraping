@@ -1,21 +1,24 @@
 import dotenv from "dotenv";
 import express from "express";
 import { Database } from "./Database";
+import { scrapeData } from "./scraping";
 
 //Initalization
 dotenv.config();
 
-const app = express();
+scrapeData();
 
-app.use(express.json());
-app.use(express.static("public"));
+// const app = express();
 
-app.get("/professors", async (req, res) =>
-{
-  res.send(await Database.fetchProfessorsInitialData());
-});
+// app.use(express.json());
+// app.use(express.static("public"));
 
-app.listen(process.env.PORT || 8080, () =>
-{
-  console.log("Server up!");
-});
+// app.get("/professors", async (req, res) =>
+// {
+//   res.send(await Database.fetchProfessorsInitialData());
+// });
+
+// app.listen(process.env.PORT || 8080, () =>
+// {
+//   console.log("Server up!");
+// });

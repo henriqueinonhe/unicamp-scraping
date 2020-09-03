@@ -15,7 +15,7 @@ export class Database
     const database = mongoClient.db();
     const collection = database.collection("professors");
     await collection.deleteMany({});
-    await collection.insertMany(profiles.map(profile => profile.serialize()));
+    await collection.insertMany(profiles);
 
     //Close Connection
     await mongoClient.close();

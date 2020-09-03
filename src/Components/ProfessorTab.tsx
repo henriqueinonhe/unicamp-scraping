@@ -59,7 +59,7 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
         <InstitutesInfo>
           <InstitutesLabel>Institutos</InstitutesLabel>
           <InstitutesContainer>
-            {Array.from(profile.instituteEntries).map(entry => <Institute key={entry.acronym}>{entry.acronym}</Institute>)}
+            {Array.from(profile.institutes).map(entry => <Institute key={entry.acronym}>{entry.acronym}</Institute>)}
           </InstitutesContainer>
         </InstitutesInfo>
 
@@ -71,7 +71,7 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
               <SubjectsInfo>
                 <SubjectsLabel>Matérias</SubjectsLabel>
                 <SubjectsContainer>
-                  {Array.from(profile.subjectEntries).map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
+                  {Array.from(profile.subjects).map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
                 </SubjectsContainer>
               </SubjectsInfo>
 
