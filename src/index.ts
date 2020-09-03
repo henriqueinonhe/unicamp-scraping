@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import moment from "moment";
 import { ClassScheduleEntry, scrapData, InstituteEntry, SubjectEntry, ClassEntry } from "./scraping";
 import mongodb from "mongodb";
+import { Database } from "./database";
 
 //Initalization
 dotenv.config();
@@ -25,16 +26,7 @@ class ProfessorProfile
 
 async function fetchProfessorsSchedules() : Promise<Map<string, ProfessorProfile>>
 {
-  //Dabatase and deserialziation
-  const mongoURI = process.env.DB_URI!;
-  const mongoClient = new mongodb.MongoClient(mongoURI, { useUnifiedTopology: true });
-  await mongoClient.connect();
-
-  const database = mongoClient.db("unicamp-docentes");
-  const collection = database.collection("model");
-  const instituteEntries = (await collection.find({}).toArray()).map(entry => InstituteEntry.deserialize(entry));
-
-  await mongoClient.close();
+  const instituteEntries = await Database.fetchInstituteEntries();
 
   //Professors Profiles
   const professorsProfiles = new Map<string, ProfessorProfile>();
@@ -60,14 +52,6 @@ async function fetchProfessorsSchedules() : Promise<Map<string, ProfessorProfile
           professorProfile.classSchedules.push(... classEntry.schedule);
         }
       }
-    }
-  }
-
-  for(const professorProfile of professorsProfiles.values())
-  {
-    if(professorProfile.instituteEntries.size > 1)
-    {
-      console.log(professorProfile.name, Array.from(professorProfile.instituteEntries).map(entry => entry.acronym));
     }
   }
 

@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import mongodb from "mongodb";
+import { Database } from "./database";
 
 export class InstituteEntry
 {
@@ -163,19 +164,6 @@ async function scrapClassEntries(instituteEntries : Array<InstituteEntry>, page 
 
 export async function scrapData() : Promise<void> 
 {
-  //Database Connect
-  const mongoURI = process.env.DB_URI!;
-  const mongoClient = new mongodb.MongoClient(mongoURI, { useUnifiedTopology: true });
-  try
-  {
-    await mongoClient.connect();
-  }
-  catch(error)
-  {
-    console.log(error);
-  }
-
-  //Scraping
   const browser = await puppeteer.launch({headless: true});
   const page = await browser.newPage();
   
@@ -183,13 +171,7 @@ export async function scrapData() : Promise<void>
   await scrapSubjectEntries(instituteEntries, page);
   await scrapClassEntries(instituteEntries, page);
 
-  //Save data in database
-  const database = mongoClient.db();
-  const collection = database.collection("model");
-  await collection.deleteMany({});
-  await collection.insertMany(instituteEntries);
-
-  await mongoClient.close();
+  Database.storeInstituteEntries(instituteEntries);
 
   await browser.close();
 }
