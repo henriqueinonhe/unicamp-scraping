@@ -63,21 +63,25 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
           </InstitutesContainer>
         </InstitutesInfo>
 
-        <SubjectsInfo>
-          <SubjectsLabel>Matérias</SubjectsLabel>
-          <SubjectsContainer>
-            {Array.from(profile.subjectEntries).map(entry => <Subject key={entry.code}>{entry.code}</Subject>)}
-          </SubjectsContainer>
-        </SubjectsInfo>
+        
 
         {
           detailsStatus ? <></> :
-            <ScheduleInfo>
-              <ScheduleLabel>Horários</ScheduleLabel>
-              <ScheduleContainer>
-                {profile.classSchedules.map((entry, index) => <ScheduleItem key={index} entry={entry}/>)}
-              </ScheduleContainer>
-            </ScheduleInfo>
+            <>
+              <SubjectsInfo>
+                <SubjectsLabel>Matérias</SubjectsLabel>
+                <SubjectsContainer>
+                  {Array.from(profile.subjectEntries).map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
+                </SubjectsContainer>
+              </SubjectsInfo>
+
+              <ScheduleInfo>
+                <ScheduleLabel>Horários</ScheduleLabel>
+                <ScheduleContainer>
+                  {profile.classSchedules.map((entry, index) => <ScheduleItem key={index} entry={entry}/>)}
+                </ScheduleContainer>
+              </ScheduleInfo>
+            </>
         }
 
       </ProfessorInfo>

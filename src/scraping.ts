@@ -3,6 +3,9 @@ import { Database } from "./database";
 import { InstituteEntry } from "./Models/InstituteEntry";
 import { SubjectEntry } from "./Models/SubjectEntry";
 import { ClassEntry } from "./Models/ClassEntry";
+import { ClassScheduleEntry } from "./Models/ClassScheduleEntry";
+import { DayTime } from "./Models/DayTime";
+import { ProfessorProfile } from "./Models/ProfessorProfile";
 
 async function scrapInstituteEntries(page : puppeteer.Page) : Promise<Array<InstituteEntry>>
 {
@@ -75,7 +78,7 @@ async function scrapClassEntries(instituteEntries : Array<InstituteEntry>, page 
       for(const node of classNodes)
       {
         const professors = await node.$$eval(".docentes>li", array => array.map(element => element.textContent?.replace(/\s+$/, "")!));
-        const schedule = await node.$$eval(".horariosFormatado>li", array => array.map(list => 
+        const serializedSchedule = await node.$$eval(".horariosFormatado>li", array => array.map(list => 
         {
           const weekDay = list.querySelector(".diaSemana")?.textContent!;
           const [beginTime, endTime] = list.querySelector(".horarios")?.textContent?.split(" - ")!;
@@ -83,6 +86,9 @@ async function scrapClassEntries(instituteEntries : Array<InstituteEntry>, page 
 
           return {weekDay, beginTime, endTime, classRoom};
         }));
+
+        //Deserializing
+        const schedule = serializedSchedule.map(item => new ClassScheduleEntry(item.weekDay, DayTime.fromString(item.beginTime), DayTime.fromString(item.endTime), item.classRoom, subjectEntry.code));
 
         classEntries.push(new ClassEntry(professors, schedule));
       }
@@ -96,7 +102,96 @@ async function scrapClassEntries(instituteEntries : Array<InstituteEntry>, page 
   console.timeEnd("Class entries scraping elpased time");
 }
 
-export async function scrapData() : Promise<void> 
+function weekDayToNumber(weekDay : string) : number
+{
+  if(weekDay === "Segunda")
+  {
+    return 0;
+  }
+  else if(weekDay === "Terça")
+  {
+    return 1;
+  }
+  else if(weekDay === "Quarta")
+  {
+    return 2;
+  }
+  else if(weekDay === "Quinta")
+  {
+    return 3;
+  }
+  else if(weekDay === "Sexta")
+  {
+    return 4;
+  }
+  else if(weekDay === "Sábado")
+  {
+    return 5;
+  }
+  else if(weekDay === "Domingo")
+  {
+    return 6;
+  }
+  else
+  {
+    throw new Error(`Invalid weekDay ("${weekDay}")!`);
+  }
+}
+
+function generateProfessorsProfiles(instituteEntries : Array<InstituteEntry>) : Array<ProfessorProfile>
+{
+  const professorsProfiles = new Map<string, ProfessorProfile>();
+  for(const instituteEntry of instituteEntries)
+  {
+    const subjectEntries = instituteEntry.subjectEntries;
+    for(const subjectEntry of subjectEntries)
+    {
+      const classEntries = subjectEntry.classEntries;
+      for(const classEntry of classEntries)
+      {
+        const professors = classEntry.professors;
+        for(const professor of professors)
+        {
+          if(!professorsProfiles.has(professor))
+          {
+            professorsProfiles.set(professor, new ProfessorProfile(professor));
+          }
+
+          const professorProfile = professorsProfiles.get(professor)!;
+          professorProfile.instituteEntries.add(instituteEntry);
+          professorProfile.subjectEntries.add(subjectEntry);
+          professorProfile.classSchedules.push(... classEntry.schedule);
+        }
+      }
+    }
+  }
+
+  const professorsProfilesAsArray = Array.from(professorsProfiles.values());
+
+  //Sort Schedule Entries
+  for(const profile of professorsProfilesAsArray)
+  {
+    profile.classSchedules.sort((entry1, entry2) =>
+    {
+      if(weekDayToNumber(entry1.weekDay) < weekDayToNumber(entry2.weekDay))
+      {
+        return -1;
+      }
+      else if(weekDayToNumber(entry1.weekDay) > weekDayToNumber(entry2.weekDay))
+      {
+        return 1;
+      }
+      else
+      {
+        return entry1.beginTime.compare(entry2.beginTime);
+      }
+    });
+  }
+
+  return professorsProfilesAsArray;
+}
+
+export async function scrapeData() : Promise<void> 
 {
   const browser = await puppeteer.launch({headless: true});
   const page = await browser.newPage();
@@ -104,8 +199,10 @@ export async function scrapData() : Promise<void>
   const instituteEntries = await scrapInstituteEntries(page);
   await scrapSubjectEntries(instituteEntries, page);
   await scrapClassEntries(instituteEntries, page);
+  const professorsProfiles = generateProfessorsProfiles(instituteEntries);
 
-  Database.storeInstituteEntries(instituteEntries);
+  await Database.storeCrudeData(instituteEntries);
+  await Database.storeProfessorsProfiles(professorsProfiles);
 
   await browser.close();
 }

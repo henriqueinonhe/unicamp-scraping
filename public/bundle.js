@@ -31894,7 +31894,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-/* harmony import */ var _Schedule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Schedule */ "./src/Components/Schedule.tsx");
+/* harmony import */ var _ScheduleItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ScheduleItem */ "./src/Components/ScheduleItem.tsx");
 var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
@@ -31928,27 +31928,52 @@ function ProfessorTab(props) {
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesInfo, null,
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesLabel, null, "Institutos"),
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesContainer, null, Array.from(profile.instituteEntries).map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Institute, { key: entry.acronym }, entry.acronym); }))),
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsInfo, null,
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsLabel, null, "Mat\u00E9rias"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsContainer, null, Array.from(profile.subjectEntries).map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Subject, { key: entry.code }, entry.code); }))),
             detailsStatus ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null) :
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleInfo, null,
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleLabel, null, "Hor\u00E1rios"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleContainer, null, profile.classSchedules.map(function (entry, index) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Schedule__WEBPACK_IMPORTED_MODULE_2__["ScheduleItem"], { key: index, entry: entry }); }))))));
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null,
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsInfo, null,
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsLabel, null, "Mat\u00E9rias"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsContainer, null, Array.from(profile.subjectEntries).map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Subject, { key: entry.code },
+                            entry.code,
+                            "   "); }))),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleInfo, null,
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleLabel, null, "Hor\u00E1rios"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleContainer, null, profile.classSchedules.map(function (entry, index) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ScheduleItem__WEBPACK_IMPORTED_MODULE_2__["ScheduleItem"], { key: index, entry: entry }); })))))));
 }
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
 
 
 /***/ }),
 
-/***/ "./src/Components/Schedule.tsx":
-/*!*************************************!*\
-  !*** ./src/Components/Schedule.tsx ***!
-  \*************************************/
+/***/ "./src/Components/ScheduleItem.tsx":
+/*!*****************************************!*\
+  !*** ./src/Components/ScheduleItem.tsx ***!
+  \*****************************************/
 /*! exports provided: ScheduleItem */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/ts-loader/index.js):\nError: ENOENT: no such file or directory, open 'C:\\Users\\Henrique\\Desktop\\Repositories\\unicamp-scraping\\src\\Components\\Schedule.tsx'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScheduleItem", function() { return ScheduleItem; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+
+var ScheduleContent = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject([""], [""])));
+function ScheduleItem(props) {
+    var entry = props.entry;
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleContent, null,
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, entry.weekDay),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, entry.beginTime),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, entry.endTime),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, entry.classRoom)));
+}
+var templateObject_1;
+
 
 /***/ }),
 
@@ -31969,6 +31994,22 @@ var ProfessorProfile = /** @class */ (function () {
         this.subjectEntries = new Set();
         this.classSchedules = [];
     }
+    ProfessorProfile.deserialize = function (object) {
+        var name = object.name, instituteEntries = object.instituteEntries, subjectEntries = object.subjectEntries, classSchedules = object.classSchedules;
+        var profile = new ProfessorProfile(name);
+        profile.instituteEntries = new Set(instituteEntries);
+        profile.subjectEntries = new Set(subjectEntries);
+        profile.classSchedules = classSchedules;
+        return profile;
+    };
+    ProfessorProfile.prototype.serialize = function () {
+        return {
+            name: this.name,
+            instituteEntries: Array.from(this.instituteEntries),
+            subjectEntries: Array.from(this.subjectEntries),
+            classSchedules: this.classSchedules
+        };
+    };
     return ProfessorProfile;
 }());
 
@@ -31989,7 +32030,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./controller */ "./src/controller.ts");
+/* harmony import */ var _Models_ProfessorProfile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Models/ProfessorProfile */ "./src/Models/ProfessorProfile.ts");
 /* harmony import */ var _Components_ProfessorTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Components/ProfessorTab */ "./src/Components/ProfessorTab.tsx");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -32039,13 +32080,13 @@ function App() {
             var response, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (fetch("http://localhost:8080/data"))];
+                    case 0: return [4 /*yield*/, (fetch("http://localhost:8080/professors"))];
                     case 1:
                         response = _a.sent();
                         return [4 /*yield*/, response.json()];
                     case 2:
                         data = _a.sent();
-                        setProfessorsProfiles(Object(_controller__WEBPACK_IMPORTED_MODULE_2__["generateProfessorsProfiles"])(data));
+                        setProfessorsProfiles(data.map(function (entry) { return _Models_ProfessorProfile__WEBPACK_IMPORTED_MODULE_2__["ProfessorProfile"].deserialize(entry); }));
                         return [2 /*return*/];
                 }
             });
@@ -32055,50 +32096,6 @@ function App() {
 }
 var rootNode = document.getElementById("root");
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), rootNode);
-
-
-/***/ }),
-
-/***/ "./src/controller.ts":
-/*!***************************!*\
-  !*** ./src/controller.ts ***!
-  \***************************/
-/*! exports provided: generateProfessorsProfiles */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateProfessorsProfiles", function() { return generateProfessorsProfiles; });
-/* harmony import */ var _Models_ProfessorProfile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Models/ProfessorProfile */ "./src/Models/ProfessorProfile.ts");
-
-function generateProfessorsProfiles(instituteEntries) {
-    var _a;
-    //Professors Profiles
-    var professorsProfiles = new Map();
-    for (var _i = 0, instituteEntries_1 = instituteEntries; _i < instituteEntries_1.length; _i++) {
-        var instituteEntry = instituteEntries_1[_i];
-        var subjectEntries = instituteEntry.subjectEntries;
-        for (var _b = 0, subjectEntries_1 = subjectEntries; _b < subjectEntries_1.length; _b++) {
-            var subjectEntry = subjectEntries_1[_b];
-            var classEntries = subjectEntry.classEntries;
-            for (var _c = 0, classEntries_1 = classEntries; _c < classEntries_1.length; _c++) {
-                var classEntry = classEntries_1[_c];
-                var professors = classEntry.professors;
-                for (var _d = 0, professors_1 = professors; _d < professors_1.length; _d++) {
-                    var professor = professors_1[_d];
-                    if (!professorsProfiles.has(professor)) {
-                        professorsProfiles.set(professor, new _Models_ProfessorProfile__WEBPACK_IMPORTED_MODULE_0__["ProfessorProfile"](professor));
-                    }
-                    var professorProfile = professorsProfiles.get(professor);
-                    professorProfile.instituteEntries.add(instituteEntry);
-                    professorProfile.subjectEntries.add(subjectEntry);
-                    (_a = professorProfile.classSchedules).push.apply(_a, classEntry.schedule);
-                }
-            }
-        }
-    }
-    return Array.from(professorsProfiles.values());
-}
 
 
 /***/ })
