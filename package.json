@@ -15,7 +15,7 @@
         "test": "jest --runInBand",
         "build": "tsc -p .",
         "run": "node ./build/src/index.js",
-        "buildAndRun": "tsc -p . && node ./build/src/index.js",
+        "buildAndRun": "echo Building Started && tsc -p . && echo Building Finished && echo Running Started && node ./build/src/index.js && echo Running Finished",
         "docs": "typedoc"
     },
     "devDependencies": {
