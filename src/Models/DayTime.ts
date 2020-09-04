@@ -16,6 +16,11 @@ export class DayTime
     this.minute = minute;
   }
 
+  public static deserialize(object : Record<string, unknown>) : DayTime
+  {
+    return new DayTime(object.hour as number, object.minute as number);
+  }
+
   public static fromString(string : string) : DayTime
   {
     if(!/^\d\d:\d\d$/.test(string))
@@ -35,6 +40,16 @@ export class DayTime
   public getMinute() : number
   {
     return this.minute;
+  }
+
+  public toString() : string
+  {
+    const twoDigitHour = this.hour > 9;
+    const twoDigitMinute = this.minute > 9;
+    const formattedHour = twoDigitHour ? `${this.hour}` : `0${this.hour}`;
+    const formattedMinute = twoDigitMinute ? `${this.minute}` : `0${this.minute}`;
+
+    return `${formattedHour}:${formattedMinute}`;
   }
 
   public compare(other : DayTime) : number

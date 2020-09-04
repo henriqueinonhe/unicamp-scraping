@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProfessorProfile } from "../Models/ProfessorProfile";
 import styled from "styled-components";
 import { ScheduleItem } from "./ScheduleItem";
@@ -42,14 +42,30 @@ interface ProfessorTabProps
 
 export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
 {
-  const { profile } = props;
-
   const [detailsStatus, setDetailsStatus] = useState<boolean>(false);
+  const [detailsFetched, setDetailsFetched] = useState<boolean>(false);
+  const [profile, setProfile] = useState(props.profile);
 
   function handleClick() : void
   {
     setDetailsStatus(!detailsStatus);
   }
+
+  useEffect(() =>
+  {
+    (async () =>
+    {
+      if(detailsStatus && !detailsFetched)
+      {
+        console.log("here");
+        const response = await fetch(`http://localhost:8080/professors/${profile.name}`);
+        const data = await response.json();
+        setProfile(ProfessorProfile.deserialize(data));
+        setDetailsFetched(true);
+      }
+    })();
+
+  }, [detailsStatus]);
 
   return (
     <ProfessorTabContent onClick={handleClick}>
@@ -59,26 +75,26 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
         <InstitutesInfo>
           <InstitutesLabel>Institutos</InstitutesLabel>
           <InstitutesContainer>
-            {Array.from(profile.institutes).map(entry => <Institute key={entry.acronym}>{entry.acronym}</Institute>)}
+            {profile.institutes.map(entry => <Institute key={entry.acronym}>{entry.acronym}</Institute>)}
           </InstitutesContainer>
         </InstitutesInfo>
 
         
 
         {
-          detailsStatus ? <></> :
+          !detailsStatus ? <></> :
             <>
               <SubjectsInfo>
                 <SubjectsLabel>Matérias</SubjectsLabel>
                 <SubjectsContainer>
-                  {Array.from(profile.subjects).map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
+                  {!profile.subjects ? <></> : profile.subjects.map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
                 </SubjectsContainer>
               </SubjectsInfo>
 
               <ScheduleInfo>
                 <ScheduleLabel>Horários</ScheduleLabel>
                 <ScheduleContainer>
-                  {profile.classSchedules.map((entry, index) => <ScheduleItem key={index} entry={entry}/>)}
+                  {!profile.classes ? <></> : profile.classes.map((entry, index : number) => <ScheduleItem key={index} entry={entry}/>)}
                 </ScheduleContainer>
               </ScheduleInfo>
             </>

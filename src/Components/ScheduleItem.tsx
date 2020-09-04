@@ -1,12 +1,16 @@
 import React from "react";
-import { ClassScheduleEntry } from "../Models/ClassScheduleEntry";
 import styled from "styled-components";
+import { Class } from "../Models/ProfessorProfile";
 
 const ScheduleContent = styled.div``;
 
+const ScheduleData = styled.span`
+  padding: 0 3px;
+`;
+
 interface ScheduleProps
 {
-  entry : ClassScheduleEntry;
+  entry : Class;
 }
 
 export function ScheduleItem(props : ScheduleProps) : JSX.Element
@@ -15,10 +19,11 @@ export function ScheduleItem(props : ScheduleProps) : JSX.Element
 
   return (
     <ScheduleContent>
-      <span>{entry.weekDay}</span>
-      <span>{entry.beginTime}</span>
-      <span>{entry.endTime}</span>
-      <span>{entry.classRoom}</span>
+      <ScheduleData>{entry.weekDay}</ScheduleData>
+      <ScheduleData>{entry.beginTime.toString()}</ScheduleData>
+      <ScheduleData>{entry.endTime.toString()}</ScheduleData>
+      <ScheduleData>{entry.classRoom}</ScheduleData>
+      <ScheduleData>{entry.subjectCode}</ScheduleData>
     </ScheduleContent>
   );
 }

@@ -13,7 +13,7 @@ function App() : JSX.Element
     {
       const response = await(fetch("http://localhost:8080/professors"));
       const data = await response.json();
-      setProfessorsProfiles(data.map((entry : Record<string, unknown>) => ProfessorProfile.deserialize(entry)));
+      setProfessorsProfiles(data);
     })();
   }, []);
 
