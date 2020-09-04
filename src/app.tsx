@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { ProfessorProfile } from "./Models/ProfessorProfile";
-import { ProfessorTab } from "./Components/ProfessorTab";
+import Container from "@material-ui/core/Container";
+import styled from "styled-components";
+import { ProfessorsList } from "./Components/ProfessorsList";
+
+const Body = styled(Container).attrs(() => ({
+  maxWidth: "lg"
+}))``;
 
 function App() : JSX.Element
 {
-  const [professorsProfiles, setProfessorsProfiles] = useState<Array<ProfessorProfile>>([]);
-
-  useEffect(() =>
-  {
-    (async () => 
-    {
-      const response = await(fetch("http://localhost:8080/professors"));
-      const data = await response.json();
-      setProfessorsProfiles(data);
-    })();
-  }, []);
-
   return (
-    <>
-      {professorsProfiles.length === 0 ? "Loading!" : professorsProfiles.map(profile => <ProfessorTab key={profile.name} profile={profile} />)}
-    </>
+    <Body>
+      <ProfessorsList />      
+    </ Body>
   );
 }
 

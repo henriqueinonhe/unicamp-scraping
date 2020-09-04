@@ -2,26 +2,40 @@ import React, { useState, useEffect } from "react";
 import { ProfessorProfile } from "../Models/ProfessorProfile";
 import styled from "styled-components";
 import { ScheduleItem } from "./ScheduleItem";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ProfessorTabContent = styled.div``;
 
-const ProfessorName = styled.h2``;
+const ProfessorName = styled(Typography).attrs(() => ({
+  variant: "h4",
+  component: "h2"
+}))``;
 
 const ProfessorInfo = styled.div``;
 
 const InstitutesInfo = styled.div``;
 
-const InstitutesLabel = styled.h3``;
+const InstitutesLabel = styled(Typography).attrs(() => ({
+  variant: "h5",
+  component: "h3"
+}))``;
 
 const InstitutesContainer = styled.div``;
 
-const Institute = styled.span`
-  padding: 0 3px;
-`;
+const Institute = styled(Typography).attrs(() => ({
+  variant: "body1",
+  component: "span"
+}))``;
+
 
 const SubjectsInfo = styled.div``;
 
-const SubjectsLabel = styled.h3``;
+const SubjectsLabel = styled(Typography).attrs(() => ({
+  variant: "h5",
+  component: "h3"
+}))``;
+
 
 const SubjectsContainer = styled.div``;
 
@@ -57,7 +71,6 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
     {
       if(detailsStatus && !detailsFetched)
       {
-        console.log("here");
         const response = await fetch(`http://localhost:8080/professors/${profile.name}`);
         const data = await response.json();
         setProfile(ProfessorProfile.deserialize(data));
@@ -87,14 +100,14 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
               <SubjectsInfo>
                 <SubjectsLabel>Matérias</SubjectsLabel>
                 <SubjectsContainer>
-                  {!profile.subjects ? <></> : profile.subjects.map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
+                  {!profile.subjects ? <CircularProgress/> : profile.subjects.map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
                 </SubjectsContainer>
               </SubjectsInfo>
 
               <ScheduleInfo>
                 <ScheduleLabel>Horários</ScheduleLabel>
                 <ScheduleContainer>
-                  {!profile.classes ? <></> : profile.classes.map((entry, index : number) => <ScheduleItem key={index} entry={entry}/>)}
+                  {!profile.classes ? <CircularProgress/> : profile.classes.map((entry, index : number) => <ScheduleItem key={index} entry={entry}/>)}
                 </ScheduleContainer>
               </ScheduleInfo>
             </>
