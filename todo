@@ -1,5 +1,3 @@
-- Show progress of each scraping phase and log time (and later with a specialized library) - Partially Done
 - Include pós graduação (envolve remover duplicatas, complexo)
 - Treat data (Professores - Done e salas)
-- Work on frontend
 - Optimize scraping
