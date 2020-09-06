@@ -36,7 +36,7 @@ export function ProfessorsList() : JSX.Element
   {
     (async () => 
     {
-      const response = await(fetch(`http://localhost:${process.env.PORT}/professors`));
+      const response = await(fetch(`https://unicamp-scraping.herokuapp.com//professors`));
       const data = await response.json();
       setProfessorsProfiles(data);
       setSelectedProfessorsProfiles(data);
