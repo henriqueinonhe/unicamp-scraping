@@ -40038,7 +40038,7 @@ function warning(condition, message) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfessorTab", function() { return ProfessorTab; });
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfessorTab", function() { return ProfessorTab; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Models_ProfessorProfile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Models/ProfessorProfile */ "./src/Models/ProfessorProfile.ts");
@@ -40125,7 +40125,7 @@ function ProfessorTab(props) {
                 switch (_a.label) {
                     case 0:
                         if (!(detailsStatus && !detailsFetched)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, fetch("http://localhost:8080/professors/" + profile.name)];
+                        return [4 /*yield*/, fetch("http://localhost:" + process.env.PORT + "/professors/" + profile.name)];
                     case 1:
                         response = _a.sent();
                         return [4 /*yield*/, response.json()];
@@ -40160,6 +40160,7 @@ function ProfessorTab(props) {
 }
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16;
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -40172,7 +40173,7 @@ var templateObject_1, templateObject_2, templateObject_3, templateObject_4, temp
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfessorsList", function() { return ProfessorsList; });
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfessorsList", function() { return ProfessorsList; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ProfessorTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfessorTab */ "./src/Components/ProfessorTab.tsx");
@@ -40238,7 +40239,7 @@ function ProfessorsList() {
             var response, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (fetch("http://localhost:8080/professors"))];
+                    case 0: return [4 /*yield*/, (fetch("http://localhost:" + process.env.PORT + "/professors"))];
                     case 1:
                         response = _a.sent();
                         return [4 /*yield*/, response.json()];
@@ -40287,6 +40288,7 @@ function ProfessorsList() {
 }
 var templateObject_1, templateObject_2;
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 

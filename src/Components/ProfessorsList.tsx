@@ -36,7 +36,7 @@ export function ProfessorsList() : JSX.Element
   {
     (async () => 
     {
-      const response = await(fetch("http://localhost:8080/professors"));
+      const response = await(fetch(`http://localhost:${process.env.PORT}/professors`));
       const data = await response.json();
       setProfessorsProfiles(data);
       setSelectedProfessorsProfiles(data);

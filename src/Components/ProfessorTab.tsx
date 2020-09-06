@@ -124,7 +124,7 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
     {
       if(detailsStatus && !detailsFetched)
       {
-        const response = await fetch(`http://localhost:8080/professors/${profile.name}`);
+        const response = await fetch(`http://localhost:${process.env.PORT}/professors/${profile.name}`);
         const data = await response.json();
         setProfile(ProfessorProfile.deserialize(data));
         setDetailsFetched(true);
