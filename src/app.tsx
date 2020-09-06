@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import { ProfessorsList } from "./Components/ProfessorsList";
 
-const Body = styled(Container).attrs(() => ({
-  maxWidth: "lg"
-}))``;
+const Body = styled.div`
+  font-family: Roboto, sans-serif;
+  color: #111;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
 
 function App() : JSX.Element
 {

@@ -2,50 +2,77 @@ import React, { useState, useEffect } from "react";
 import { ProfessorProfile } from "../Models/ProfessorProfile";
 import styled from "styled-components";
 import { ScheduleItem } from "./ScheduleItem";
-import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { primaryColor } from "../theme";
+import { ScheduleGrid } from "./ScheduleGrid";
 
-const ProfessorTabContent = styled.div``;
 
-const ProfessorName = styled(Typography).attrs(() => ({
-  variant: "h4",
-  component: "h2"
-}))``;
+const ProfessorTabContent = styled.li`
+  margin: 20px 0;
+  padding: 20px 10px;
+  box-shadow: 2px 2px 11px 0px rgba(0,0,0,0.39);
+  width: 100%;
+`;
+
+const ProfessorName = styled.h2`
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #111;
+`;
 
 const ProfessorInfo = styled.div``;
 
-const InstitutesInfo = styled.div``;
+const Label = styled.h3`
+  text-align: center;
+  font-size: 20px;
+`;
 
-const InstitutesLabel = styled(Typography).attrs(() => ({
-  variant: "h5",
-  component: "h3"
-}))``;
+const InstitutesInfo = styled.div`
+  padding-top: 10px;
+`;
 
-const InstitutesContainer = styled.div``;
+const InstitutesLabel = styled(Label)`
+  margin-bottom: 5px;
+`;
 
-const Institute = styled(Typography).attrs(() => ({
-  variant: "body1",
-  component: "span"
-}))``;
+const InstitutesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const Institute = styled.span`
+  background-color: ${primaryColor.light};
+  border-radius: 3px;
+  padding: 5px 5px;
+  margin: 0 10px;
+`;
 
 
-const SubjectsInfo = styled.div``;
+const SubjectsInfo = styled.div`
+  padding: 10px 0;
+`;
 
-const SubjectsLabel = styled(Typography).attrs(() => ({
-  variant: "h5",
-  component: "h3"
-}))``;
+const SubjectsLabel = styled(Label)`
+  margin-bottom: 5px;
+`;
 
 
-const SubjectsContainer = styled.div``;
+const SubjectsContainer = styled.div`
+  text-align: center;
+`;
 
 const Subject = styled.span`
   padding: 0 3px;
 `;
 
-const ScheduleInfo = styled.div``;
+const ScheduleInfo = styled.div`
+`;
 
-const ScheduleLabel = styled.h3``;
+const ScheduleLabel = styled(Label)`
+  margin-bottom: 5px;
+`;
 
 const ScheduleContainer = styled.div``;
 
@@ -80,6 +107,7 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
 
   }, [detailsStatus]);
 
+
   return (
     <ProfessorTabContent onClick={handleClick}>
       <ProfessorName>{profile.name}</ProfessorName>
@@ -91,8 +119,6 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
             {profile.institutes.map(entry => <Institute key={entry.acronym}>{entry.acronym}</Institute>)}
           </InstitutesContainer>
         </InstitutesInfo>
-
-        
 
         {
           !detailsStatus ? <></> :
@@ -107,7 +133,13 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
               <ScheduleInfo>
                 <ScheduleLabel>Horários</ScheduleLabel>
                 <ScheduleContainer>
-                  {!profile.classes ? <CircularProgress/> : profile.classes.map((entry, index : number) => <ScheduleItem key={index} entry={entry}/>)}
+                  
+                  {!profile.classes ? 
+                    <CircularProgress/> : 
+                    <>
+                      <ScheduleGrid classes={profile.classes} />
+                      {profile.classes.map((entry, index : number) => <ScheduleItem key={index} entry={entry} /> )}
+                    </>}
                 </ScheduleContainer>
               </ScheduleInfo>
             </>

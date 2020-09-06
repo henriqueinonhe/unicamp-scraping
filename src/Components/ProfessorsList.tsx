@@ -2,6 +2,24 @@ import React, { useEffect, useState } from "react";
 import { ProfessorProfile } from "../Models/ProfessorProfile";
 import { ProfessorTab } from "./ProfessorTab";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  width: 80%;
+  max-width: 600px;
+`;
+
+const ProfessorsContainer = styled.ul`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export function ProfessorsList() : JSX.Element
 {
@@ -13,6 +31,7 @@ export function ProfessorsList() : JSX.Element
   const [isLoading, setIsLoading] = useState(true);
   const [searchInputValue, setSearchInputValue] = useState<string>("");
 
+  //Professors Initialization
   useEffect(() =>
   {
     (async () => 
@@ -26,6 +45,7 @@ export function ProfessorsList() : JSX.Element
     })();
   }, []);
 
+  //Infinite Scroll
   useEffect(() =>
   {
     const callback = () : void => 
@@ -62,13 +82,13 @@ export function ProfessorsList() : JSX.Element
   }
 
   return (
-    <>
+    <Container>
       <input type="text" onChange={handleSearchInputChange} value={searchInputValue} placeholder="Nome"/>
-      <div id="professorsContainer">
+      <ProfessorsContainer id="professorsContainer">
         {
           visibleProfessorsProfiles.map(profile => <ProfessorTab key={profile.name} profile={profile} />)}
         {isLoading ? <CircularProgress /> : <></>}
-      </div>
-    </>
+      </ProfessorsContainer>
+    </Container>
   );
 }
