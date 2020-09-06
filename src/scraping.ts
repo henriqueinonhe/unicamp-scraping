@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { Database } from "./database";
+import { MyDatabase } from "./MyDatabase";
 import { InstituteEntry } from "./Models/InstituteEntry";
 import { SubjectEntry } from "./Models/SubjectEntry";
 import { ClassEntry } from "./Models/ClassEntry";
@@ -197,14 +197,14 @@ function generateProfessorsProfiles(instituteEntries : Array<InstituteEntry>) : 
           const classes = professorProfile.classes;
           if(institutes.every(institute => institute.acronym !== instituteEntry.acronym))
           {
-            const {name, acronym} = instituteEntry;
-            institutes.push({name, acronym});
+            const {name, acronym, link} = instituteEntry;
+            institutes.push({name, acronym, link});
           }
 
           if(subjects.every(subject => subject.code !== subjectEntry.code))
           {
-            const {name, code} = subjectEntry;
-            subjects.push({name, code});
+            const {name, code, link} = subjectEntry;
+            subjects.push({name, code, link});
           }
 
           classes.push(... classEntry.schedule.map(entry => 
@@ -272,8 +272,8 @@ export async function scrapeData() : Promise<void>
   await scrapClassEntries(instituteEntries, page);
   const professorsProfiles = generateProfessorsProfiles(instituteEntries);
 
-  await Database.storeCrudeData(instituteEntries);
-  await Database.storeProfessorsProfiles(professorsProfiles);
+  await MyDatabase.storeCrudeData(instituteEntries);
+  await MyDatabase.storeProfessorsProfiles(professorsProfiles);
 
   await browser.close();
 }

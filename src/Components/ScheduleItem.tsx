@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Class } from "../Models/ProfessorProfile";
+import { ProfessorProfileClass } from "../Models/ProfessorProfile";
 
-const ScheduleContent = styled.div``;
+const ScheduleContent = styled.div`
+  margin: 5px 0;
+`;
 
 const ScheduleData = styled.span`
   padding: 0 3px;
@@ -10,7 +12,7 @@ const ScheduleData = styled.span`
 
 interface ScheduleProps
 {
-  entry : Class;
+  entry : ProfessorProfileClass;
 }
 
 export function ScheduleItem(props : ScheduleProps) : JSX.Element
@@ -21,6 +23,7 @@ export function ScheduleItem(props : ScheduleProps) : JSX.Element
     <ScheduleContent>
       <ScheduleData>{entry.weekDay}</ScheduleData>
       <ScheduleData>{entry.beginTime.toString()}</ScheduleData>
+      -
       <ScheduleData>{entry.endTime.toString()}</ScheduleData>
       <ScheduleData>{entry.classRoom}</ScheduleData>
       <ScheduleData>{entry.subjectCode}</ScheduleData>

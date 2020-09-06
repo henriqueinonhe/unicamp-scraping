@@ -3,7 +3,7 @@ import { ProfessorProfile } from "../Models/ProfessorProfile";
 import styled from "styled-components";
 import { ScheduleItem } from "./ScheduleItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { primaryColor } from "../theme";
+import { primaryColor, secondaryColor } from "../theme";
 import { ScheduleGrid } from "./ScheduleGrid";
 
 
@@ -29,7 +29,7 @@ const Label = styled.h3`
 `;
 
 const InstitutesInfo = styled.div`
-  padding-top: 10px;
+  padding-top: 20px;
 `;
 
 const InstitutesLabel = styled(Label)`
@@ -42,16 +42,22 @@ const InstitutesContainer = styled.div`
   justify-content: center;
 `;
 
-const Institute = styled.span`
-  background-color: ${primaryColor.light};
-  border-radius: 3px;
-  padding: 5px 5px;
+const Institute = styled.a`
+  color: #111;
+  text-decoration: none;
+  background-color: ${primaryColor.lighter};
+  border-radius: 20px;
+  width: 70px;
+  height: 30px;
   margin: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 
 const SubjectsInfo = styled.div`
-  padding: 10px 0;
+  padding: 20px 0;
 `;
 
 const SubjectsLabel = styled(Label)`
@@ -60,11 +66,23 @@ const SubjectsLabel = styled(Label)`
 
 
 const SubjectsContainer = styled.div`
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
-const Subject = styled.span`
-  padding: 0 3px;
+const Subject = styled.a`
+  color: #111;
+  text-decoration: none;
+  background-color: ${secondaryColor.main};
+  border-radius: 20px;
+  width: 70px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 `;
 
 const ScheduleInfo = styled.div`
@@ -75,6 +93,14 @@ const ScheduleLabel = styled(Label)`
 `;
 
 const ScheduleContainer = styled.div``;
+
+const ScheduleList = styled.ul`
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 interface ProfessorTabProps
 {
@@ -116,7 +142,7 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
         <InstitutesInfo>
           <InstitutesLabel>Institutos</InstitutesLabel>
           <InstitutesContainer>
-            {profile.institutes.map(entry => <Institute key={entry.acronym}>{entry.acronym}</Institute>)}
+            {profile.institutes.map(entry => <Institute key={entry.acronym} href={entry.link}>{entry.acronym}</Institute>)}
           </InstitutesContainer>
         </InstitutesInfo>
 
@@ -126,7 +152,7 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
               <SubjectsInfo>
                 <SubjectsLabel>Matérias</SubjectsLabel>
                 <SubjectsContainer>
-                  {!profile.subjects ? <CircularProgress/> : profile.subjects.map(entry => <Subject key={entry.code}>{entry.code}   </Subject>)}
+                  {!profile.subjects ? <CircularProgress/> : profile.subjects.map(entry => <Subject key={entry.code} href={entry.link}>{entry.code}</Subject>)}
                 </SubjectsContainer>
               </SubjectsInfo>
 
@@ -138,7 +164,9 @@ export function ProfessorTab(props : ProfessorTabProps) : JSX.Element
                     <CircularProgress/> : 
                     <>
                       <ScheduleGrid classes={profile.classes} />
-                      {profile.classes.map((entry, index : number) => <ScheduleItem key={index} entry={entry} /> )}
+                      <ScheduleList>
+                        {profile.classes.map((entry, index : number) => <ScheduleItem key={index} entry={entry} /> )}
+                      </ScheduleList>
                     </>}
                 </ScheduleContainer>
               </ScheduleInfo>

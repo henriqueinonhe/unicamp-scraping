@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
 import express from "express";
-import { Database } from "./Database";
+import { MyDatabase } from "./MyDatabase";
 
 (async () =>
 {
   //Initalization
   dotenv.config();
-  await Database.initialize();
+  await MyDatabase.initialize();
 
   const app = express();
 
@@ -15,13 +15,13 @@ import { Database } from "./Database";
   
   app.get("/professors", async (req, res) =>
   {
-    res.send(await Database.fetchProfessorsInitialData());
+    res.send(await MyDatabase.fetchProfessorsInitialData());
   });
   
   app.get("/professors/:name", async (req, res) =>
   {
     const { name } = req.params;
-    res.send(await Database.fetchProfessorData(name));
+    res.send(await MyDatabase.fetchProfessorData(name));
   });
   
   app.listen(process.env.PORT || 8080, () =>

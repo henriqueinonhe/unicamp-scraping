@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Class } from "../Models/ProfessorProfile";
+import { ProfessorProfileClass } from "../Models/ProfessorProfile";
 import { DayTime } from "../Models/DayTime";
+import { secondaryColor } from "../theme";
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +37,7 @@ const Column = styled.div`
 
 interface ScheduleGridProps 
 {
-  classes : Array<Class>;
+  classes : Array<ProfessorProfileClass>;
 }
 
 export function ScheduleGrid(props : ScheduleGridProps) : JSX.Element
@@ -44,9 +45,9 @@ export function ScheduleGrid(props : ScheduleGridProps) : JSX.Element
   const hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
   const {classes} = props;
 
-  function findClass(weekDay : string, hour : number) : Class | undefined
+  function findClass(weekDay : string, hour : number) : ProfessorProfileClass | undefined
   {
-    return classes.find(item => 
+    return classes?.find(item => 
     {
       const wrappedHour = new DayTime(hour, 0);
 
@@ -56,6 +57,16 @@ export function ScheduleGrid(props : ScheduleGridProps) : JSX.Element
              (wrappedHour.compare(item.endTime) === -1 || 
              wrappedHour.compare(item.endTime) === 0 ));
     });
+  }
+
+  function formatClassEntry(classEntry : ProfessorProfileClass | undefined) : string | undefined
+  {
+    if(!classEntry)
+    {
+      return undefined;
+    }
+
+    return `${classEntry.subjectCode} - ${classEntry.classRoom}`;
   }
 
   return (
@@ -73,12 +84,30 @@ export function ScheduleGrid(props : ScheduleGridProps) : JSX.Element
         hours.map(hour => 
           <Row key={hour}>
             <Column>{`${hour}:00`}</Column>
-            <Column>{<div>{findClass("Segunda", hour)?.classRoom}</div>}</Column>
-            <Column>{<div>{findClass("Terça", hour)?.classRoom}</div>}</Column>
-            <Column>{<div>{findClass("Quarta", hour)?.classRoom}</div>}</Column>
-            <Column>{<div>{findClass("Quinta", hour)?.classRoom}</div>}</Column>
-            <Column>{<div>{findClass("Sexta", hour)?.classRoom}</div>}</Column>
-            <Column>{<div>{findClass("Sábado", hour)?.classRoom}</div>}</Column>
+            <Column 
+              style={{backgroundColor: findClass("Segunda", hour) ? secondaryColor.light : "white"}}>
+              {formatClassEntry(findClass("Segunda", hour))}
+            </Column>
+            <Column 
+              style={{backgroundColor: findClass("Terça", hour) ? secondaryColor.light : "white"}}>{
+                formatClassEntry(findClass("Terça", hour))}
+            </Column>
+            <Column 
+              style={{backgroundColor: findClass("Quarta", hour) ? secondaryColor.light : "white"}}>{
+                formatClassEntry(findClass("Quarta", hour))}
+            </Column>
+            <Column 
+              style={{backgroundColor: findClass("Quinta", hour) ? secondaryColor.light : "white"}}>{
+                formatClassEntry(findClass("Quinta", hour))}
+            </Column>
+            <Column 
+              style={{backgroundColor: findClass("Sexta", hour) ? secondaryColor.light : "white"}}>{
+                formatClassEntry(findClass("Sexta", hour))}
+            </Column>
+            <Column 
+              style={{backgroundColor: findClass("Sábado", hour) ? secondaryColor.light : "white"}}>{
+                formatClassEntry(findClass("Sábado", hour))}
+            </Column>
           </Row>)
       }
 

@@ -40098,17 +40098,18 @@ var ProfessorTabContent = styled_components__WEBPACK_IMPORTED_MODULE_2__["defaul
 var ProfessorName = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].h2(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  text-align: center;\n  font-size: 24px;\n  font-weight: bold;\n  color: #111;\n"], ["\n  text-align: center;\n  font-size: 24px;\n  font-weight: bold;\n  color: #111;\n"])));
 var ProfessorInfo = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject([""], [""])));
 var Label = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].h3(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  text-align: center;\n  font-size: 20px;\n"], ["\n  text-align: center;\n  font-size: 20px;\n"])));
-var InstitutesInfo = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n  padding-top: 10px;\n"], ["\n  padding-top: 10px;\n"])));
+var InstitutesInfo = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n  padding-top: 20px;\n"], ["\n  padding-top: 20px;\n"])));
 var InstitutesLabel = Object(styled_components__WEBPACK_IMPORTED_MODULE_2__["default"])(Label)(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n  margin-bottom: 5px;\n"], ["\n  margin-bottom: 5px;\n"])));
 var InstitutesContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n"])));
-var Institute = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].span(templateObject_8 || (templateObject_8 = __makeTemplateObject(["\n  background-color: ", ";\n  border-radius: 3px;\n  padding: 5px 5px;\n  margin: 0 10px;\n"], ["\n  background-color: ", ";\n  border-radius: 3px;\n  padding: 5px 5px;\n  margin: 0 10px;\n"])), _theme__WEBPACK_IMPORTED_MODULE_5__["primaryColor"].light);
-var SubjectsInfo = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_9 || (templateObject_9 = __makeTemplateObject(["\n  padding: 10px 0;\n"], ["\n  padding: 10px 0;\n"])));
+var Institute = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].a(templateObject_8 || (templateObject_8 = __makeTemplateObject(["\n  color: #111;\n  text-decoration: none;\n  background-color: ", ";\n  border-radius: 20px;\n  width: 70px;\n  height: 30px;\n  margin: 0 10px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n"], ["\n  color: #111;\n  text-decoration: none;\n  background-color: ", ";\n  border-radius: 20px;\n  width: 70px;\n  height: 30px;\n  margin: 0 10px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n"])), _theme__WEBPACK_IMPORTED_MODULE_5__["primaryColor"].lighter);
+var SubjectsInfo = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_9 || (templateObject_9 = __makeTemplateObject(["\n  padding: 20px 0;\n"], ["\n  padding: 20px 0;\n"])));
 var SubjectsLabel = Object(styled_components__WEBPACK_IMPORTED_MODULE_2__["default"])(Label)(templateObject_10 || (templateObject_10 = __makeTemplateObject(["\n  margin-bottom: 5px;\n"], ["\n  margin-bottom: 5px;\n"])));
-var SubjectsContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_11 || (templateObject_11 = __makeTemplateObject(["\n  text-align: center;\n"], ["\n  text-align: center;\n"])));
-var Subject = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].span(templateObject_12 || (templateObject_12 = __makeTemplateObject(["\n  padding: 0 3px;\n"], ["\n  padding: 0 3px;\n"])));
+var SubjectsContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_11 || (templateObject_11 = __makeTemplateObject(["\n  display: flex;\n  justify-content: center;\n  flex-direction: row;\n  flex-wrap: wrap;\n"], ["\n  display: flex;\n  justify-content: center;\n  flex-direction: row;\n  flex-wrap: wrap;\n"])));
+var Subject = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].a(templateObject_12 || (templateObject_12 = __makeTemplateObject(["\n  color: #111;\n  text-decoration: none;\n  background-color: ", ";\n  border-radius: 20px;\n  width: 70px;\n  height: 30px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin: 10px;\n"], ["\n  color: #111;\n  text-decoration: none;\n  background-color: ", ";\n  border-radius: 20px;\n  width: 70px;\n  height: 30px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin: 10px;\n"])), _theme__WEBPACK_IMPORTED_MODULE_5__["secondaryColor"].main);
 var ScheduleInfo = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_13 || (templateObject_13 = __makeTemplateObject(["\n"], ["\n"])));
 var ScheduleLabel = Object(styled_components__WEBPACK_IMPORTED_MODULE_2__["default"])(Label)(templateObject_14 || (templateObject_14 = __makeTemplateObject(["\n  margin-bottom: 5px;\n"], ["\n  margin-bottom: 5px;\n"])));
 var ScheduleContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_15 || (templateObject_15 = __makeTemplateObject([""], [""])));
+var ScheduleList = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].ul(templateObject_16 || (templateObject_16 = __makeTemplateObject(["\n  margin-top: 20px;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n"], ["\n  margin-top: 20px;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n"])));
 function ProfessorTab(props) {
     var _this = this;
     var _a = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false), detailsStatus = _a[0], setDetailsStatus = _a[1];
@@ -40143,23 +40144,21 @@ function ProfessorTab(props) {
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ProfessorInfo, null,
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesInfo, null,
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesLabel, null, "Institutos"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesContainer, null, profile.institutes.map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Institute, { key: entry.acronym }, entry.acronym); }))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InstitutesContainer, null, profile.institutes.map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Institute, { key: entry.acronym, href: entry.link }, entry.acronym); }))),
             !detailsStatus ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null) :
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null,
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsInfo, null,
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsLabel, null, "Mat\u00E9rias"),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsContainer, null, !profile.subjects ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CircularProgress__WEBPACK_IMPORTED_MODULE_4__["default"], null) : profile.subjects.map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Subject, { key: entry.code },
-                            entry.code,
-                            "   "); }))),
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubjectsContainer, null, !profile.subjects ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CircularProgress__WEBPACK_IMPORTED_MODULE_4__["default"], null) : profile.subjects.map(function (entry) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Subject, { key: entry.code, href: entry.link }, entry.code); }))),
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleInfo, null,
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleLabel, null, "Hor\u00E1rios"),
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleContainer, null, !profile.classes ?
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CircularProgress__WEBPACK_IMPORTED_MODULE_4__["default"], null) :
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null,
                                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ScheduleGrid__WEBPACK_IMPORTED_MODULE_6__["ScheduleGrid"], { classes: profile.classes }),
-                                profile.classes.map(function (entry, index) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ScheduleItem__WEBPACK_IMPORTED_MODULE_3__["ScheduleItem"], { key: index, entry: entry }); }))))))));
+                                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleList, null, profile.classes.map(function (entry, index) { return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ScheduleItem__WEBPACK_IMPORTED_MODULE_3__["ScheduleItem"], { key: index, entry: entry }); })))))))));
 }
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16;
 
 
 /***/ }),
@@ -40305,10 +40304,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 /* harmony import */ var _Models_DayTime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Models/DayTime */ "./src/Models/DayTime.ts");
+/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../theme */ "./src/theme.ts");
 var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+
 
 
 
@@ -40319,7 +40320,7 @@ function ScheduleGrid(props) {
     var hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
     var classes = props.classes;
     function findClass(weekDay, hour) {
-        return classes.find(function (item) {
+        return classes === null || classes === void 0 ? void 0 : classes.find(function (item) {
             var wrappedHour = new _Models_DayTime__WEBPACK_IMPORTED_MODULE_2__["DayTime"](hour, 0);
             return item.weekDay === weekDay &&
                 ((wrappedHour.compare(item.beginTime) === 1 ||
@@ -40327,6 +40328,12 @@ function ScheduleGrid(props) {
                     (wrappedHour.compare(item.endTime) === -1 ||
                         wrappedHour.compare(item.endTime) === 0));
         });
+    }
+    function formatClassEntry(classEntry) {
+        if (!classEntry) {
+            return undefined;
+        }
+        return classEntry.subjectCode + " - " + classEntry.classRoom;
     }
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Container, null,
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Row, null,
@@ -40337,15 +40344,14 @@ function ScheduleGrid(props) {
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, "Sexta"),
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, "S\u00E1bado")),
         hours.map(function (hour) {
-            var _a, _b, _c, _d, _e, _f;
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Row, { key: hour },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, hour + ":00"),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, (_a = findClass("Segunda", hour)) === null || _a === void 0 ? void 0 : _a.classRoom)),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, (_b = findClass("Terça", hour)) === null || _b === void 0 ? void 0 : _b.classRoom)),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, (_c = findClass("Quarta", hour)) === null || _c === void 0 ? void 0 : _c.classRoom)),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, (_d = findClass("Quinta", hour)) === null || _d === void 0 ? void 0 : _d.classRoom)),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, (_e = findClass("Sexta", hour)) === null || _e === void 0 ? void 0 : _e.classRoom)),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, (_f = findClass("Sábado", hour)) === null || _f === void 0 ? void 0 : _f.classRoom)));
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, { style: { backgroundColor: findClass("Segunda", hour) ? _theme__WEBPACK_IMPORTED_MODULE_3__["secondaryColor"].light : "white" } }, formatClassEntry(findClass("Segunda", hour))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, { style: { backgroundColor: findClass("Terça", hour) ? _theme__WEBPACK_IMPORTED_MODULE_3__["secondaryColor"].light : "white" } }, formatClassEntry(findClass("Terça", hour))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, { style: { backgroundColor: findClass("Quarta", hour) ? _theme__WEBPACK_IMPORTED_MODULE_3__["secondaryColor"].light : "white" } }, formatClassEntry(findClass("Quarta", hour))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, { style: { backgroundColor: findClass("Quinta", hour) ? _theme__WEBPACK_IMPORTED_MODULE_3__["secondaryColor"].light : "white" } }, formatClassEntry(findClass("Quinta", hour))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, { style: { backgroundColor: findClass("Sexta", hour) ? _theme__WEBPACK_IMPORTED_MODULE_3__["secondaryColor"].light : "white" } }, formatClassEntry(findClass("Sexta", hour))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Column, { style: { backgroundColor: findClass("Sábado", hour) ? _theme__WEBPACK_IMPORTED_MODULE_3__["secondaryColor"].light : "white" } }, formatClassEntry(findClass("Sábado", hour))));
         })));
 }
 var templateObject_1, templateObject_2, templateObject_3;
@@ -40372,13 +40378,14 @@ var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || func
 };
 
 
-var ScheduleContent = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject([""], [""])));
+var ScheduleContent = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  margin: 5px 0;\n"], ["\n  margin: 5px 0;\n"])));
 var ScheduleData = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].span(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  padding: 0 3px;\n"], ["\n  padding: 0 3px;\n"])));
 function ScheduleItem(props) {
     var entry = props.entry;
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleContent, null,
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleData, null, entry.weekDay),
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleData, null, entry.beginTime.toString()),
+        "-",
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleData, null, entry.endTime.toString()),
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleData, null, entry.classRoom),
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ScheduleData, null, entry.subjectCode)));
@@ -40545,19 +40552,27 @@ var templateObject_1;
 /*!**********************!*\
   !*** ./src/theme.ts ***!
   \**********************/
-/*! exports provided: primaryColor, textColor */
+/*! exports provided: primaryColor, secondaryColor, textColor */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "primaryColor", function() { return primaryColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "secondaryColor", function() { return secondaryColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "textColor", function() { return textColor; });
 var primaryColor = {
-    lighter: "#3B7AFF",
-    light: "#8EB2FE",
-    main: "#6395FF",
+    lighter: "#bad0ff",
+    light: "#6395FF",
+    main: "#3B7AFF",
     dark: "#1660FF",
     darker: "#0150F7"
+};
+var secondaryColor = {
+    lighter: "#FF75D5",
+    light: "#ffc4ed",
+    main: "#FFA4E4",
+    dark: "#FF49C8",
+    darker: "#FD1BB9"
 };
 var textColor = {};
 

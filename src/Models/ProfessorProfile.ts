@@ -1,18 +1,20 @@
 import { DayTime } from "./DayTime";
 
-export interface Institute
+export interface ProfessorProfileInstitute
 {
   acronym : string;
   name : string;
+  link : string;
 }
 
-export interface Subject
+export interface ProfessorProfileSubject
 {
   code : string;
   name : string;
+  link : string;
 }
 
-export interface Class
+export interface ProfessorProfileClass
 {
   weekDay : string;
   beginTime : DayTime;
@@ -36,14 +38,14 @@ export class ProfessorProfile
     const {name, institutes, subjects, classes} = object;
 
     const profile = new ProfessorProfile(name as string);
-    profile.institutes = institutes as Array<Institute>;
-    profile.subjects = subjects as Array<Subject>;
+    profile.institutes = institutes as Array<ProfessorProfileInstitute>;
+    profile.subjects = subjects as Array<ProfessorProfileSubject>;
     profile.classes = ProfessorProfile.deserializeClasses(classes as Array<Record<string, unknown>>);
 
     return profile;
   }
 
-  private static deserializeClasses(array : Array<Record<string, unknown>>) : Array<Class>
+  private static deserializeClasses(array : Array<Record<string, unknown>>) : Array<ProfessorProfileClass>
   {
     type serializedDayTime = {hour : number; minute : number};
     const classes = [];
@@ -62,7 +64,7 @@ export class ProfessorProfile
   }
 
   public name : string;
-  public institutes : Array<Institute>;
-  public subjects : Array<Subject>;
-  public classes : Array<Class>;
+  public institutes : Array<ProfessorProfileInstitute>;
+  public subjects : Array<ProfessorProfileSubject>;
+  public classes : Array<ProfessorProfileClass>;
 }

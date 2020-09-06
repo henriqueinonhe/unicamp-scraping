@@ -86,16 +86,16 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/Database.ts":
-/*!*************************!*\
-  !*** ./src/Database.ts ***!
-  \*************************/
-/*! exports provided: Database */
+/***/ "./src/MyDatabase.ts":
+/*!***************************!*\
+  !*** ./src/MyDatabase.ts ***!
+  \***************************/
+/*! exports provided: MyDatabase */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Database", function() { return Database; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MyDatabase", function() { return MyDatabase; });
 /* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongodb */ "mongodb");
 /* harmony import */ var mongodb__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongodb__WEBPACK_IMPORTED_MODULE_0__);
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -135,42 +135,42 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
     }
 };
 
-var Database = /** @class */ (function () {
-    function Database() {
+var MyDatabase = /** @class */ (function () {
+    function MyDatabase() {
     }
-    Database.initialize = function () {
+    MyDatabase.initialize = function () {
         return __awaiter(this, void 0, void 0, function () {
             var mongoURI;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         mongoURI = process.env.DB_URI;
-                        Database.mongoClient = new mongodb__WEBPACK_IMPORTED_MODULE_0___default.a.MongoClient(mongoURI, { useUnifiedTopology: true });
-                        return [4 /*yield*/, Database.mongoClient.connect()];
+                        MyDatabase.mongoClient = new mongodb__WEBPACK_IMPORTED_MODULE_0___default.a.MongoClient(mongoURI, { useUnifiedTopology: true });
+                        return [4 /*yield*/, MyDatabase.mongoClient.connect()];
                     case 1:
                         _a.sent();
-                        Database.database = Database.mongoClient.db();
+                        MyDatabase.database = MyDatabase.mongoClient.db();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    Database.cleanup = function () {
+    MyDatabase.cleanup = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 //Close Database
-                Database.mongoClient.close();
+                MyDatabase.mongoClient.close();
                 return [2 /*return*/];
             });
         });
     };
-    Database.storeProfessorsProfiles = function (profiles) {
+    MyDatabase.storeProfessorsProfiles = function (profiles) {
         return __awaiter(this, void 0, void 0, function () {
             var collection;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        collection = Database.database.collection("professors");
+                        collection = MyDatabase.database.collection("professors");
                         return [4 /*yield*/, collection.deleteMany({})];
                     case 1:
                         _a.sent();
@@ -182,13 +182,13 @@ var Database = /** @class */ (function () {
             });
         });
     };
-    Database.storeCrudeData = function (entries) {
+    MyDatabase.storeCrudeData = function (entries) {
         return __awaiter(this, void 0, void 0, function () {
             var collection;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        collection = Database.database.collection("crudeData");
+                        collection = MyDatabase.database.collection("crudeData");
                         return [4 /*yield*/, collection.deleteMany({})];
                     case 1:
                         _a.sent();
@@ -200,13 +200,13 @@ var Database = /** @class */ (function () {
             });
         });
     };
-    Database.fetchProfessorsInitialData = function () {
+    MyDatabase.fetchProfessorsInitialData = function () {
         return __awaiter(this, void 0, void 0, function () {
             var collection, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        collection = Database.database.collection("professors");
+                        collection = MyDatabase.database.collection("professors");
                         return [4 /*yield*/, collection.find({}).project({ _id: 0, name: 1, institutes: 1 }).toArray()];
                     case 1:
                         data = _a.sent();
@@ -215,13 +215,13 @@ var Database = /** @class */ (function () {
             });
         });
     };
-    Database.fetchProfessorData = function (name) {
+    MyDatabase.fetchProfessorData = function (name) {
         return __awaiter(this, void 0, void 0, function () {
             var collection, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        collection = Database.database.collection("professors");
+                        collection = MyDatabase.database.collection("professors");
                         return [4 /*yield*/, collection.findOne({ name: name })];
                     case 1:
                         data = _a.sent();
@@ -230,7 +230,7 @@ var Database = /** @class */ (function () {
             });
         });
     };
-    return Database;
+    return MyDatabase;
 }());
 
 
@@ -250,7 +250,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dotenv__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dotenv__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! express */ "express");
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Database__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Database */ "./src/Database.ts");
+/* harmony import */ var _MyDatabase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MyDatabase */ "./src/MyDatabase.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -297,7 +297,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
             case 0:
                 //Initalization
                 dotenv__WEBPACK_IMPORTED_MODULE_0___default.a.config();
-                return [4 /*yield*/, _Database__WEBPACK_IMPORTED_MODULE_2__["Database"].initialize()];
+                return [4 /*yield*/, _MyDatabase__WEBPACK_IMPORTED_MODULE_2__["MyDatabase"].initialize()];
             case 1:
                 _a.sent();
                 app = express__WEBPACK_IMPORTED_MODULE_1___default()();
@@ -309,7 +309,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
                         switch (_c.label) {
                             case 0:
                                 _b = (_a = res).send;
-                                return [4 /*yield*/, _Database__WEBPACK_IMPORTED_MODULE_2__["Database"].fetchProfessorsInitialData()];
+                                return [4 /*yield*/, _MyDatabase__WEBPACK_IMPORTED_MODULE_2__["MyDatabase"].fetchProfessorsInitialData()];
                             case 1:
                                 _b.apply(_a, [_c.sent()]);
                                 return [2 /*return*/];
@@ -323,7 +323,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
                             case 0:
                                 name = req.params.name;
                                 _b = (_a = res).send;
-                                return [4 /*yield*/, _Database__WEBPACK_IMPORTED_MODULE_2__["Database"].fetchProfessorData(name)];
+                                return [4 /*yield*/, _MyDatabase__WEBPACK_IMPORTED_MODULE_2__["MyDatabase"].fetchProfessorData(name)];
                             case 1:
                                 _b.apply(_a, [_c.sent()]);
                                 return [2 /*return*/];
